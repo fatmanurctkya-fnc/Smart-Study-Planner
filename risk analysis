@@ -1,0 +1,87 @@
+Risk Analysis – Smart Study Planner
+Risk Identification
+-Technical risks: The web application may crash, notifications may fail, or database errors may occur.
+-Time risks: Some features may take longer to develop than planned.
+-Resource risks: The team may face a lack of members or limited technical tools.
+-Security risks: User data could be exposed or accessed without permission.
+-External risks: Email or SMS services may experience outages. Browser updates may also create compatibility issues.
+-User adoption risk: Some users may not use the planner regularly or may ignore notifications.
+Risk Evaluation and Management
+-Web application crash → Medium probability, high impact, priority: high.
+-Delayed or incorrect notifications → Medium probability, medium impact, priority: medium.
+-Data breach or security violation → Low probability, high impact, priority: medium.
+-Errors in the calendar or planning module → Low probability, medium impact, priority: low.
+-SMS or email service interruption → Medium probability, medium impact, priority: medium.
+-Low user adoption → Medium probability, medium impact, priority: medium.
+Risk Mitigation / Preventive Measures
+-Web application crash: Regular backups, proper error handling, and testing in a staging environment.
+-Incorrect or delayed notifications: Use reliable SMS and email APIs. Monitor system logs and notify users when needed.
+-Data leakage or security breach: Apply encryption, HTTPS, secure session management, and access control.
+-Calendar or planning module errors: Use unit tests and integration tests to verify functionality.
+-SMS or email service outages: Use alternative providers and retry mechanisms.
+-Low user adoption: Keep the interface simple and provide clear reminder notifications.
+ 
+Code Security and Data Privacy
+Code Security
+-Code reviews and testing (unit and integration tests)
+-Encryption and HTTPS protocols
+-Access control for admin and user roles
+-Password hashing to store user passwords securely
+Data Privacy
+-Protection of personal data such as emails and study plans
+-Regular database backups
+-Compliance with GDPR/KVKK data protection principles
+-Access logs and basic security monitoring
+ 
+Implementation Roadmap 
+-Research and Planning: Identify system requirements – March 15
+-Design: Prepare UI/UX design and database structure – March 22
+-Development: Build frontend and backend modules – March 29
+-Testing and Validation: Run functional and security tests – April 5
+-Presentation / Submission: Upload the project to GitHub and present it in class – April 8
+ 
+Validation and Test Plan 
+Testing Methods
+-Unit Testing: Check whether each module works correctly.
+-Integration Testing: Test how different modules interact with each other.
+-System Testing: Verify that the whole system works according to user scenarios.
+-Usability Testing: Evaluate whether students can easily use the interface.
+Validation
+-Test the system using realistic user scenarios.
+-Check if email and SMS notifications are sent correctly.
+-Verify that courses and assignments can be added to the planner without errors.
+Performance Evaluation
+-Measure response time and overall system performance.
+-Check accuracy and possible error rates.
+-Review security and data privacy protections.
+Success Criteria
+-Users receive notifications on time.
+-The system runs without crashes or data loss during normal use.
+-Users can organize their courses and tasks successfully.
+Security and privacy measures are properly implemented.
+Risk Matrix
+The following matrix summarizes the main risks of the project by comparing their probability and potential impact.
+
+Risk;
+
+
+
+Web application crash:Probability-Medium,Impact-High,Priority-High
+
+
+Notification failure or delay:Probability-Medium,Impact-Medium,Priority-Medium
+
+
+Data breach or unauthorized access : Probability-Low ,Impact-High , Priority-Medium
+
+
+Calendar or planning module errors :Probability-Low,   Impact-Medium,   Priority-High
+
+
+SMS or email service interruption: Probability -Medium,   Impact-Medium , Priority-Medium
+
+
+Low user adoption : Probability-Medium,   Impact-Medium ,  Priority-Medium
+
+
+
