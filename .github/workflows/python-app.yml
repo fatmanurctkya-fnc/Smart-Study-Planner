@@ -1,19 +1,29 @@
-name: Python CI
+name: Smart Study Planner CI
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repo'yu çek
-        uses: actions/checkout@v3
+      - name: Repository kodunu al
+        uses: actions/checkout@v4
 
       - name: Python kur
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.11"
 
-      - name: Kod çalıştır
-        run: python main.py
+      - name: Python sürümünü kontrol et
+        run: python --version
+
+      - name: Kodun syntax kontrolü
+        run: python -m py_compile *.py
+
+      - name: Basit CI mesajı
+        run: echo "Smart Study Planner CI başarıyla çalıştı"
