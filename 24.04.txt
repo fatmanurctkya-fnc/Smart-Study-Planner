@@ -1,0 +1,331 @@
+
+
+Smart Class Study Planner
+·  Let User be the main class.
+·  The Student class should extend the User class → inheritance
+·  Let Reminder be the main class.
+·  EmailReminder and PopupReminder should extend the Reminder class → inheritance
+·  The sendReminder() method should behave differently in child classes → polymorphism
+ 
+- Class
+• User
+• Student
+• StudyPlan
+• Task
+• Reminder
+• EmailReminder
+• PopupReminder
+• ProgressTracker
+1- User Class
+class User:
+   def __init__(self, user_id, name, email, password):
+       self.__user_id = user_id
+       self.__name = name
+       self.__email = email
+       self.__password = password
+       self.__study_plans = []
+ 
+   def login(self):
+       print(f"{self.__name} logged in.")
+ 
+   def register(self):
+       print(f"{self.__name} registered.")
+ 
+   def create_study_plan(self, study_plan):
+       self.__study_plans.append(study_plan)
+ 
+   def view_progress(self):
+       for plan in self.__study_plans:
+           plan.get_progress_tracker().calculate_progress()
+ 
+   def get_user_id(self):
+       return self.__user_id
+ 
+   def get_name(self):
+       return self.__name
+ 
+   def get_email(self):
+       return self.__email
+ 
+   def set_name(self, name):
+       self.__name = name
+ 
+   def set_email(self, email):
+       self.__email = email
+ 
+   def set_password(self, password):
+       self.__password = password
+ 
+   def get_study_plans(self):
+       return self.__study_plans
+·  We defined attributes like __user_id and __name using double underscores.
+·  In Python, this makes it harder to access these attributes directly from outside the class.
+·  This way, we demonstrate encapsulation.
+ 
+2- Student class → inheritance
+class Student(User):
+   def __init__(self, user_id, name, email, password, student_number, department):
+       super().__init__(user_id, name, email, password)
+       self.__student_number = student_number
+       self.__department = department
+ 
+   def view_student_info(self):
+       print(f"Student Number: {self.__student_number}")
+       print(f"Department: {self.__department}")
+ 
+   def get_student_number(self):
+       return self.__student_number
+ 
+   def get_department(self):
+       return self.__department
+·  We wrote Student(User)
+·  This means that Student inherits from User
+·  This directly represents inheritance
+ 
+3- ProgressTracker class
+This class will track progress in the study plan.
+ 
+class ProgressTracker:
+   def __init__(self, progress_id):
+       self.__progress_id = progress_id
+       self.__completed_tasks = 0
+       self.__total_tasks = 0
+       self.__progress_percentage = 0.0
+ 
+   def calculate_progress(self):
+       if self.__total_tasks == 0:
+           self.__progress_percentage = 0.0
+       else:
+           self.__progress_percentage = (self.__completed_tasks / self.__total_tasks) * 100
+ 
+       print(f"Progress: {self.__progress_percentage:.2f}%")
+ 
+   def generate_report(self):
+       print(f"Completed Tasks: {self.__completed_tasks}")
+       print(f"Total Tasks: {self.__total_tasks}")
+       print(f"Progress Percentage: {self.__progress_percentage:.2f}%")
+ 
+   def set_total_tasks(self, total_tasks):
+       self.__total_tasks = total_tasks
+ 
+   def increment_completed_tasks(self):
+       self.__completed_tasks += 1
+ 
+   def get_progress_percentage(self):
+       return self.__progress_percentage
+ 
+4- StudyPlan class
+This class will hold tasks and be linked to the progress tracker.
+class StudyPlan:
+   def __init__(self, plan_id, title, start_date, end_date, progress_tracker):
+       self.__plan_id = plan_id
+       self.__title = title
+       self.__start_date = start_date
+       self.__end_date = end_date
+       self.__tasks = []
+       self.__progress_tracker = progress_tracker
+ 
+   def add_task(self, task):
+       self.__tasks.append(task)
+       self.__progress_tracker.set_total_tasks(len(self.__tasks))
+ 
+   def update_plan(self, new_title):
+       self.__title = new_title
+ 
+   def delete_plan(self):
+       self.__tasks.clear()
+       self.__progress_tracker.set_total_tasks(0)
+ 
+   def get_tasks(self):
+       return self.__tasks
+ 
+   def get_progress_tracker(self):
+       return self.__progress_tracker
+ 
+   def get_title(self):
+       return self.__title
+ 
+5- Reminder Base class
+Now we are establishing the main structure for polymorphism.
+ 
+class Reminder:
+   def __init__(self, reminder_id, reminder_date, reminder_time, message):
+       self.__reminder_id = reminder_id
+       self.__reminder_date = reminder_date
+       self.__reminder_time = reminder_time
+       self.__message = message
+ 
+   def send_reminder(self):
+       print(f"General reminder: {self.__message}")
+ 
+   def update_reminder(self, new_message):
+       self.__message = new_message
+ 
+   def get_message(self):
+       return self.__message
+ 
+   def get_reminder_date(self):
+       return self.__reminder_date
+ 
+   def get_reminder_time(self):
+       return self.__reminder_time
+6- EmailReminder class → inheritance + polymorphism
+class EmailReminder(Reminder):
+   def __init__(self, reminder_id, reminder_date, reminder_time, message, email_address):
+       super().__init__(reminder_id, reminder_date, reminder_time, message)
+       self.__email_address = email_address
+ 
+   def send_reminder(self):
+       print(f"Email reminder sent to {self.__email_address}: {self.get_message()}")
+ 
+EmailReminder is derived from Reminder → inheritance
+It rewrote the send_reminder() method → polymorphism
+ 
+7- PopupReminder class → inheritance + polymorphism
+class PopupReminder(Reminder):
+   def __init__(self, reminder_id, reminder_date, reminder_time, message):
+       super().__init__(reminder_id, reminder_date, reminder_time, message)
+ 
+   def send_reminder(self):
+       print(f"Popup reminder: {self.get_message()}")
+ 
+-inheritance exists
+-polymorphism exists because the method was overridden
+ 
+8- Task Class
+Reminders will be stored within the task.
+class Task:
+   def __init__(self, task_id, task_name, description, deadline):
+       self.__task_id = task_id
+       self.__task_name = task_name
+       self.__description = description
+       self.__deadline = deadline
+       self.__status = "Pending"
+       self.__reminders = []
+ 
+   def mark_as_completed(self):
+       self.__status = "Completed"
+ 
+   def edit_task(self, new_name, new_description):
+       self.__task_name = new_name
+       self.__description = new_description
+ 
+   def set_deadline(self, new_deadline):
+       self.__deadline = new_deadline
+ 
+   def add_reminder(self, reminder):
+       self.__reminders.append(reminder)
+ 
+   def send_all_reminders(self):
+       for reminder in self.__reminders:
+           reminder.send_reminder()
+ 
+   def get_status(self):
+       return self.__status
+ 
+   def get_task_name(self):
+       return self.__task_name
+ 
+Why is this good?
+Because the following can all be added to the self.__reminders list:
+Reminder
+EmailReminder
+PopupReminder
+ 
+Inheritance
+We used this in two places :
+ 
+class Student(User):
+ 
+class EmailReminder(Reminder):
+class PopupReminder(Reminder):
+ 
+Polymorphism
+This demonstrates runtime polymorphism, as the same method behaves differently depending on the object type.
+We used this in the send_reminder() method:
+ 
+def send_reminder(self):
+ 
+This method:
+ 
+Works generally within Reminder
+Works like email within EmailReminder
+Works like a popup within PopupReminder
+ 
+Same method name, different behavior.
+ 
+Main (Demo) Implementation
+from datetime import date
+ 
+# Create a student (Inheritance)
+student = Student(1, "Berfin", "berfin@mail.com", "1234", "2024001", "Software Engineering")
+ 
+student.register()
+student.login()
+student.view_student_info()
+ 
+print("\n--- Creating Study Plan ---")
+ 
+# Create Progress Tracker
+progress_tracker = ProgressTracker(101)
+ 
+# Create Study Plan
+study_plan = StudyPlan(1, "Midterm Study Plan", date(2026, 4, 1), date(2026, 4, 15), progress_tracker)
+ 
+# Create Tasks
+task1 = Task(1, "Study Python", "Complete OOP topics", date(2026, 4, 5))
+task2 = Task(2, "Prepare Database Notes", "Review SQL and normalization", date(2026, 4, 7))
+ 
+# Create Reminders (Polymorphism)
+email_reminder = EmailReminder(1, date(2026, 4, 4), "09:00", "Study Python today", "berfin@mail.com")
+popup_reminder = PopupReminder(2, date(2026, 4, 6), "14:00", "Prepare database notes")
+ 
+# Add reminders to tasks
+task1.add_reminder(email_reminder)
+task2.add_reminder(popup_reminder)
+ 
+# Add tasks to study plan
+study_plan.add_task(task1)
+study_plan.add_task(task2)
+ 
+# Add study plan to student
+student.create_study_plan(study_plan)
+ 
+print("\n--- Sending Reminders ---")
+task1.send_all_reminders()
+task2.send_all_reminders()
+ 
+print("\n--- Completing Tasks ---")
+task1.mark_as_completed()
+progress_tracker.increment_completed_tasks()
+ 
+print("\n--- Viewing Progress ---")
+student.view_progress()
+ 
+print("\n--- Generating Report ---")
+progress_tracker.generate_report()
+ 
+Main Execution Explanation
+The main section of the program demonstrates how the system works in practice.
+• A Student object is created using inheritance from the User class.
+• A StudyPlan and ProgressTracker are initialized.
+• Multiple Task objects are created and added to the study plan.
+• Different types of reminders (EmailReminder and PopupReminder) are added to tasks.
+Polymorphism is demonstrated when calling the send_reminder() method, as different reminder types produce different outputs using the same method name.
+-----------------------------------------------------------------------------------------------------------------------
+The major classes from the UML class diagram were implemented in Python, including User, Student, StudyPlan, Task, Reminder, and ProgressTracker.
+Encapsulation was applied by using private attributes with double underscores and controlled access through methods.
+Inheritance was implemented by extending the User class with the Student class, and by extending the Reminder class with EmailReminder and PopupReminder.
+Polymorphism was achieved by overriding the send_reminder() method in the reminder subclasses, allowing different reminder types to perform different actions using the same method name.
+The code is clean, modular, and suitable for integration into a web-based system.
+ 
+Berfin Nazlıcan Öztürk | Fatma Nur Çetinkaya | İbrahim Direk| Damla Daştan
+ 
+ 
+ 
+ https://github.com/fatmanurctkya-fnc/Smart-Study-Planner
+ 
+ 
+ 
+ 
+ 
